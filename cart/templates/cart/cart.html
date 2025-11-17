@@ -1,68 +1,29 @@
-<!-- cart/cart.html -->
+{% extends "cart/base.html" %}
+{% block title %}Your Cart{% endblock title %}
 
-<html lang="en">
+{% block content %}
+<div class="container mx-auto px-6 py-10">
+    <h1 class="text-3xl font-bold text-center text-white mb-10">Your Shopping Cart</h1>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        /* Add CSS styles for flex container and items */
-        .product-list {
-            display: flex;
-            flex-wrap: wrap; /* Allow items to wrap to the next row if necessary */
-            justify-content: space-between; /* Space items evenly along the main axis */
-            list-style: none; /* Remove list styles */
-            padding: 0;
-        }
-
-        .product-item {
-            
-            flex: 1; /* Grow to fill available space evenly */
-             /* Limit item width to avoid overcrowding */
-            margin: 10px; /* Add spacing between items */
-            border: 1px solid #ccc; /* Add a border for visual separation */
-            padding: 10px;
-            text-align: center;
-        }
-
-        /* Style the "Buy Now" button */
-        .buy-now-button {
-            display: block;
-            margin-top: 10px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-    </style>
-</head>
-
-<body>
-
-    <h1>Your Shopping Cart</h1>
-
-    <div class="product-list">
-
-   
-
-    {% for item in cart_items %}
-    <div class="product-item">
-        <p>{{ item.product.name }} ({{ item.quantity }})</p>
-        <p>Price: ${{ item.product.price }}</p>
-        <a href="{% url 'cart:remove_from_cart' item.id %}">Remove</a>
-    </div>
-    {% empty %}
-    <p>Your cart is empty.</p>
-    {% endfor %}
-
+    {% if cart_items %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for item in cart_items %}
+        <div class="bg-gray-800 border border-gray-700 rounded-xl p-6 shadow hover:shadow-2xl transition duration-300">
+            <h2 class="text-xl font-semibold text-white mb-2">{{ item.product.name }}</h2>
+            <p class="text-gray-400 mb-2">Quantity: {{ item.quantity }}</p>
+            <p class="text-green-400 font-bold mb-4">GH₵ {{ item.product.price }}</p>
+            <a href="{% url 'cart:remove_from_cart' item.id %}" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition">Remove</a>
+        </div>
+        {% endfor %}
     </div>
 
-    <p>Total Price: ${{ total_price }}</p>
+    <div class="mt-8 flex justify-between items-center border-t border-gray-700 pt-6">
+        <h2 class="text-2xl font-bold text-white">Total: GH₵ {{ total_price }}</h2>
+        <a href="{% url 'cart:product_list' %}" class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg transition">Continue Shopping</a>
+    </div>
 
-    <a href="{% url 'cart:product_list' %}">Continue Shopping</a>
-
-</body>
-
-</html>
+    {% else %}
+    <p class="text-gray-400 text-center">Your cart is empty.</p>
+    {% endif %}
+</div>
+{% endblock content %}

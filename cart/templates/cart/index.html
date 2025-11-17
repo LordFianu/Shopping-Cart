@@ -1,54 +1,166 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Product Catalog</title>
-    <style>
-        /* Add CSS styles for flex container and items */
-        .product-list {
-            display: flex;
-            flex-wrap: wrap; /* Allow items to wrap to the next row if necessary */
-            justify-content: space-between; /* Space items evenly along the main axis */
-            list-style: none; /* Remove list styles */
-            padding: 0;
-        }
+{% extends "cart/base.html" %}
 
-        .product-item {
-            flex: 1; /* Grow to fill available space evenly */
-            max-width: 30%; /* Limit item width to avoid overcrowding */
-            margin: 10px; /* Add spacing between items */
-            border: 1px solid #ccc; /* Add a border for visual separation */
-            padding: 10px;
-            text-align: center;
-        }
+{% block title %}Products{% endblock title %}
 
-        /* Style the "Buy Now" button */
-        .buy-now-button {
-            display: block;
-            margin-top: 10px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Product Catalog</h1>
-    
-    <ul class="product-list">
-        {% for product in products %}
-            <li class="product-item">
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200" height="150">
-                <h2>{{ product.name }}</h2>
-                <p>{{ product.description }}</p>
-                <p>Price: ${{ product.price }}</p>
-                <a href="#" class="buy-now-button">Buy Now</a>
-                <a class="buy-now-button" href="{% url 'cart:add_to_cart' product.id %}">Add to Cart</a>
+{% block content %}
+<div class="container">
+  <h1 class="page-title">Explore Our Products</h1>
 
-            </li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+  <div class="product-grid">
+    {% for product in products %}
+      <div class="product-card">
+        <!-- Image -->
+        <div class="product-image">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        </div>
+
+        <!-- Name -->
+        <h2 class="product-name">{{ product.name }}</h2>
+
+        <!-- Description -->
+        <p class="product-desc">{{ product.description|truncatewords:12 }}</p>
+
+        <!-- Price -->
+        <p class="product-price">GH₵ {{ product.price }}</p>
+
+        <!-- Buttons -->
+        <div class="product-buttons">
+          <form action="#" method="post" class="button-form">
+            {% csrf_token %}
+            <button type="submit" class="buy-btn">Buy Now</button>
+          </form>
+
+          <form action="{% url 'cart:add_to_cart' product.id %}" method="post" class="button-form">
+            {% csrf_token %}
+            <button type="submit" class="cart-btn">Add to Cart</button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  /* Container styling */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  /* Page title */
+  .page-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #333;
+  }
+
+  /* Grid layout: 3 products per row */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  /* Product card styling */
+  .product-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+
+  /* Image styling */
+  .product-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  /* Product info */
+  .product-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 15px 15px 5px;
+    color: #333;
+  }
+
+  .product-desc {
+    font-size: 0.9rem;
+    margin: 0 15px 10px;
+    color: #666;
+  }
+
+  .product-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0 15px 15px;
+    color: #1a73e8;
+  }
+
+  /* Buttons container */
+  .product-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 15px 15px;
+  }
+
+  .button-form {
+    flex: 1;
+  }
+
+  /* Buttons styling */
+  .buy-btn, .cart-btn {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .buy-btn {
+    background-color: #28a745;
+    color: #fff;
+    margin-right: 10px;
+  }
+
+  .buy-btn:hover {
+    background-color: #218838;
+  }
+
+  .cart-btn {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  .cart-btn:hover {
+    background-color: #0069d9;
+  }
+
+  /* Responsive adjustments */
+  @media screen and (max-width: 992px) {
+    .product-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .product-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+{% endblock content %}

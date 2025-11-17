@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ShopEase{% endblock %}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0f0f10;
+            --card: #1a1a1c;
+            --accent: #4f8cff;
+            --text: #e6e6e6;
+            --subtext: #9a9a9a;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* NAVBAR */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #111113;
+            border-bottom: 1px solid #222;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            margin: 0;
+        }
+
+        nav ul li a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.25s;
+        }
+        nav ul li a:hover { color: var(--accent); }
+
+        /* SEARCH */
+        .search-bar input {
+            background: var(--card);
+            border: 1px solid #333;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: var(--text);
+            outline: none;
+        }
+        .search-bar button {
+            background: var(--accent);
+            color: white;
+            padding: 8px 14px;
+            border: none;
+            margin-left: 10px;
+            border-radius: 6px;
+        }
+
+        /* HERO */
+        .hero {
+            height: 380px;
+            background-image: url('https://images.unsplash.com/photo-1515165562835-c4c47a5af0ff');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+        }
+        .hero-content {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .hero-content h1 {
+            font-size: 42px;
+            margin: 0 0 10px;
+        }
+        .hero-content p {
+            color: var(--subtext);
+        }
+
+        /* MAIN */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 25px;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: var(--subtext);
+            border-top: 1px solid #222;
+            margin-top: 40px;
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <nav>
+        <a class="logo" href="/">ShopEase</a>
+
+        <form class="search-bar" method="get" action="/search/">
+            <input type="text" name="q" placeholder="Search products..." />
+            <button type="submit">Search</button>
+        </form>
+
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/cart/">Cart</a></li>
+            <li><a href="#">Categories</a></li>
+        </ul>
+    </nav>
+
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Premium Products, Futuristic Design</h1>
+            <p>Shop smart. Shop sleek. Shop in style.</p>
+        </div>
+    </section>
+
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        © 2025 ShopEase — Futuristic Shopping Experience
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
