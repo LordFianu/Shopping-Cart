@@ -1,29 +1,199 @@
 {% extends "cart/base.html" %}
+
 {% block title %}Your Cart{% endblock title %}
 
 {% block content %}
-<div class="container mx-auto px-6 py-10">
-    <h1 class="text-3xl font-bold text-center text-white mb-10">Your Shopping Cart</h1>
+
+<div class="container">
+    <h1 class="page-title">Your Shopping Cart</h1>
 
     {% if cart_items %}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="product-grid">
         {% for item in cart_items %}
-        <div class="bg-gray-800 border border-gray-700 rounded-xl p-6 shadow hover:shadow-2xl transition duration-300">
-            <h2 class="text-xl font-semibold text-white mb-2">{{ item.product.name }}</h2>
-            <p class="text-gray-400 mb-2">Quantity: {{ item.quantity }}</p>
-            <p class="text-green-400 font-bold mb-4">GH₵ {{ item.product.price }}</p>
-            <a href="{% url 'cart:remove_from_cart' item.id %}" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition">Remove</a>
+        <div class="product-card">
+            
+            <!-- Product Name -->
+            <h2 class="product-name">{{ item.product.name }}</h2>
+
+            <!-- Quantity -->
+            <p class="product-desc">Quantity: {{ item.quantity }}</p>
+
+            <!-- Price -->
+            <p class="product-price">GH₵ {{ item.product.price }}</p>
+
+            <!-- Remove Button -->
+            <div class="product-buttons">
+                <a href="{% url 'cart:remove_from_cart' item.id %}" class="remove-btn">Remove</a>
+            </div>
         </div>
         {% endfor %}
     </div>
 
-    <div class="mt-8 flex justify-between items-center border-t border-gray-700 pt-6">
-        <h2 class="text-2xl font-bold text-white">Total: GH₵ {{ total_price }}</h2>
-        <a href="{% url 'cart:product_list' %}" class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg transition">Continue Shopping</a>
+    <!-- Cart Total + Continue Shopping -->
+    <div class="cart-footer">
+        <h2 class="total-text">Total: GH₵ {{ total_price }}</h2>
+        <a href="{% url 'cart:product_list' %}" class="continue-btn">Continue Shopping</a>
     </div>
 
     {% else %}
-    <p class="text-gray-400 text-center">Your cart is empty.</p>
+    <p class="empty-text">Your cart is empty.</p>
     {% endif %}
 </div>
+
+<style>
+/* Match index.html full dark theme */
+body {
+    background: #000000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Page Title Glow */
+.page-title {
+    text-align: left;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #4dabff;
+    animation: glowPulse 5s infinite ease-in-out alternate;
+}
+
+@keyframes glowPulse {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 8px #007bff, 0 0 14px #006ee6;
+    }
+    100% {
+        transform: scale(1.05);
+        text-shadow: 0 0 18px #1a8cff, 0 0 30px #3399ff;
+    }
+}
+
+/* Grid layout same as index */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+/* Matching Product Card Style */
+.product-card {
+    background: rgba(255, 255, 255, 0.09);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    border: 3px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 0 #222, 0 15px 25px rgba(0, 0, 0, 0.35);
+    padding: 20px;
+    transition: 0.25s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 12px 0 #333, 0 22px 35px rgba(0, 0, 0, 0.5);
+}
+
+.product-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.product-desc {
+    font-size: .95rem;
+    margin-bottom: 10px;
+    color: #d0d0d0;
+}
+
+.product-price {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #73b7ff;
+}
+
+/* Buttons */
+.product-buttons {
+    margin-top: 15px;
+}
+
+.remove-btn {
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+    background: #b40000;
+    color: #fff;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    border: 2px solid #ffb3b3;
+    transition: 0.3s;
+}
+
+.remove-btn:hover {
+    transform: scale(1.05);
+    background: #d10000;
+    box-shadow: 0 0 10px #ff4d4d;
+}
+
+/* Footer Section */
+.cart-footer {
+    margin-top: 40px;
+    padding-top: 25px;
+    border-top: 2px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-text {
+    font-size: 2rem;
+    color: #73b7ff;
+    font-weight: bold;
+}
+
+.continue-btn {
+    background: linear-gradient(45deg, #6a00ff, #9d4bff);
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    transition: 0.3s;
+}
+
+.continue-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 16px rgba(180, 90, 255, 1);
+}
+
+/* Empty Cart */
+.empty-text {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-top: 40px;
+    color: #aaa;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
 {% endblock content %}

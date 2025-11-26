@@ -3,8 +3,23 @@
 {% block title %}Products{% endblock title %}
 
 {% block content %}
+ <!-- HERO ONLY HAS BACKGROUND IMAGE -->
+  <section class="hero" role="banner" aria-label="Store hero">
+    <div class="hero-content">
+      <h1>Premium Products, Futuristic Design</h1>
+      <p>Shop smart. Shop sleek. Shop in style.</p>
+    </div>
+  </section>
+
 <div class="container">
   <h1 class="page-title">Explore Our Products</h1>
+
+  <!-- ADD ITEM BUTTON -->
+  <div class="add-item-container">
+    <a href="{% url 'cart:add_item' %}" class="add-item-btn">
+      ➕ Add New Item
+    </a>
+  </div>
 
   <div class="product-grid">
     {% for product in products %}
@@ -25,14 +40,13 @@
 
         <!-- Buttons -->
         <div class="product-buttons">
-          <form action="#" method="post" class="button-form">
-            {% csrf_token %}
-            <button type="submit" class="buy-btn">Buy Now</button>
-          </form>
+          
 
           <form action="{% url 'cart:add_to_cart' product.id %}" method="post" class="button-form">
             {% csrf_token %}
-            <button type="submit" class="cart-btn">Add to Cart</button>
+            <button type="submit" class="cart-btn">
+              🛒 
+            </button>
           </form>
         </div>
       </div>
@@ -41,126 +55,202 @@
 </div>
 
 <style>
-  /* Container styling */
+  /* ---------------------------------------
+     DARK MODE THEME + GLOBAL STYLING
+  ----------------------------------------*/
+  body {
+    background: #000000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+
   .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    font-family: Arial, sans-serif;
   }
 
-  /* Page title */
+  /* ---------------------------------------
+     GLOWING + PULSING PAGE TITLE
+  ----------------------------------------*/
   .page-title {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-    color: #333;
+    text-align: left;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #4dabff;
+    animation: glowPulse 5s infinite ease-in-out alternate;
   }
 
-  /* Grid layout: 3 products per row */
+  @keyframes glowPulse {
+    0% {
+      transform: scale(1);
+      text-shadow: 0 0 8px #007bff, 0 0 14px #006ee6;
+    }
+    100% {
+      transform: scale(1.05);
+      text-shadow: 0 0 18px #1a8cff, 0 0 30px #3399ff;
+    }
+  }
+
+  /* ---------------------------------------
+     ADD NEW ITEM BUTTON — ROUNDED & RIGHT-ALIGNED
+  ----------------------------------------*/
+  .add-item-container {
+    display: flex;
+    justify-content: flex-end;   /* Push to the right */
+    margin-bottom: 25px;
+  }
+
+  .add-item-btn {
+    background: linear-gradient(45deg, #6a00ff, #9d4bff);
+    padding: 14px 28px;
+    border-radius: 50px;         /* Fully rounded capsule */
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 16px rgba(150, 50, 255, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.25); /* Shape outline */
+    transition: 0.3s ease;
+  }
+
+  .add-item-btn:hover {
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 6px 20px rgba(180, 90, 255, 0.95);
+  }
+
+  /* ---------------------------------------
+     GRID LAYOUT
+  ----------------------------------------*/
   .product-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
   }
 
-  /* Product card styling */
+  /* ---------------------------------------
+     GLASSMORPHISM + 3D THICK CARD
+  ----------------------------------------*/
   .product-card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: rgba(255, 255, 255, 0.09);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    border: 3px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 0 #222, 0 15px 25px rgba(0, 0, 0, 0.35);
+    padding-bottom: 15px;
+    transform: translateY(0);
+    transition: 0.25s ease;
   }
 
   .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 12px 0 #333, 0 22px 35px rgba(0, 0, 0, 0.5);
   }
 
-  /* Image styling */
-  .product-image img {
+.product-image {
+    overflow: hidden;                /* ensures image does not overflow card */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+    border-top-left-radius: 16px;    /* match card rounding */
+    border-top-right-radius: 16px;
+}
+
+.product-image img {
     width: 100%;
-    height: 200px;
+    height: 210px;
     object-fit: cover;
+    transition: transform 0.5s ease;
+    border-top-left-radius: 16px;    /* round corners of the image */
+    border-top-right-radius: 16px;
+}
+
+  .product-card:hover .product-image img {
+    transform: scale(1.15);
   }
 
-  /* Product info */
   .product-name {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    margin: 15px;
+    color: #fff;
     font-weight: bold;
-    margin: 15px 15px 5px;
-    color: #333;
   }
 
   .product-desc {
-    font-size: 0.9rem;
-    margin: 0 15px 10px;
-    color: #666;
+    font-size: 0.95rem;
+    margin: 0 15px 12px;
+    color: #d0d0d0;
   }
 
   .product-price {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: bold;
-    margin: 0 15px 15px;
-    color: #1a73e8;
+    margin: 0 15px 20px;
+    color: #73b7ff;
   }
 
-  /* Buttons container */
   .product-buttons {
     display: flex;
-    justify-content: space-between;
-    margin: 0 15px 15px;
+    gap: 15px;
+    margin: 0 15px;
   }
 
   .button-form {
     flex: 1;
   }
 
-  /* Buttons styling */
-  .buy-btn, .cart-btn {
+/* BUY NOW AND ADD TO CART BUTTONS — BLACK WITH WHITE LIT BORDER */
+.buy-btn,
+.cart-btn {
+    background-color: #000;           /* Black background */
+    color: #fff;                      /* White text */
+    border: 2px solid #fff;           /* White border */
+    border-radius: 8px;
     width: 100%;
-    padding: 10px 0;
-    border: none;
-    border-radius: 5px;
+    padding: 12px 0;
     font-weight: bold;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background 0.2s ease;
-  }
+    display: flex;
+    align-items: center;              /* vertically center */
+    justify-content: center;          /* horizontally center */
+    gap: 8px;                         /* spacing between symbol and text */
+    transition: 0.3s ease;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
 
-  .buy-btn {
-    background-color: #28a745;
-    color: #fff;
-    margin-right: 10px;
-  }
+.buy-btn:hover,
+.cart-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 16px rgba(255, 255, 255, 1);
+}
 
-  .buy-btn:hover {
-    background-color: #218838;
-  }
+/* Ensure the cart button is just the symbol and centered */
+.cart-btn {
+    gap: 0;  /* remove space since only symbol */
+    font-size: 1.2rem;  /* slightly larger symbol for visibility */
+}
 
-  .cart-btn {
-    background-color: #007bff;
-    color: #fff;
-  }
 
-  .cart-btn:hover {
-    background-color: #0069d9;
-  }
 
-  /* Responsive adjustments */
-  @media screen and (max-width: 992px) {
+@media (max-width: 1200px) {
     .product-grid {
-      grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
-  }
+}
 
-  @media screen and (max-width: 600px) {
+@media (max-width: 992px) {
     .product-grid {
-      grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
-  }
+}
+
+@media (max-width: 600px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 </style>
 
 {% endblock content %}

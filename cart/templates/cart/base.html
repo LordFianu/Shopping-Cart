@@ -1,160 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}ShopEase{% endblock %}</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}ShopEase{% endblock %}</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --bg: #0f0f10;
-            --card: #1a1a1c;
-            --accent: #4f8cff;
-            --text: #e6e6e6;
-            --subtext: #9a9a9a;
-        }
+  <style>
+    :root{
+      --bg: #0f0f10;
+      --card: #1a1a1c;
+      --accent: #4f8cff;
+      --text: #e6e6e6;
+      --subtext: #9a9a9a;
+    }
 
-        body {
-            margin: 0;
-            font-family: "Inter", sans-serif;
-            background: var(--bg);
-            color: var(--text);
-        }
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
 
-        /* NAVBAR */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            background: #111113;
-            border-bottom: 1px solid #222;
-        }
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background: var(--bg); /* Dark background for entire site */
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative;
+      z-index: 0;
+    }
 
-        .logo {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--accent);
-            text-decoration: none;
-        }
+    /* NAVBAR */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      background: #111113;
+      border-bottom: 1px solid #222;
+      z-index: 5;
+      position: relative;
+    }
 
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 30px;
-            margin: 0;
-        }
+    .logo {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+    }
 
-        nav ul li a {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.25s;
-        }
-        nav ul li a:hover { color: var(--accent); }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.25s;
+    }
+    nav ul li a:hover {
+      color: var(--accent);
+    }
 
-        /* SEARCH */
-        .search-bar input {
-            background: var(--card);
-            border: 1px solid #333;
-            padding: 8px 12px;
-            border-radius: 6px;
-            color: var(--text);
-            outline: none;
-        }
-        .search-bar button {
-            background: var(--accent);
-            color: white;
-            padding: 8px 14px;
-            border: none;
-            margin-left: 10px;
-            border-radius: 6px;
-        }
+    .search-bar input {
+      background: var(--card);
+      border: 1px solid #333;
+      padding: 8px 12px;
+      border-radius: 6px;
+      color: var(--text);
+      outline: none;
+    }
+    .search-bar button {
+      background: var(--accent);
+      color: white;
+      padding: 8px 14px;
+      border: none;
+      margin-left: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
-        /* HERO */
-        .hero {
-            height: 380px;
-            background-image: url('https://images.unsplash.com/photo-1515165562835-c4c47a5af0ff');
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-        .hero::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,0.55);
-        }
-        .hero-content {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-        .hero-content h1 {
-            font-size: 42px;
-            margin: 0 0 10px;
-        }
-        .hero-content p {
-            color: var(--subtext);
-        }
+    /* HERO SECTION */
+    .hero {
+      height: 420px;
+      background-image: url("/static/images/images.jpg") ;
+      background-size: cover;          /* Fill hero section only */
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+    }
 
-        /* MAIN */
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 25px;
-        }
+    /* Dark overlay only for hero */
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
 
-        /* FOOTER */
-        footer {
-            text-align: center;
-            padding: 25px;
-            color: var(--subtext);
-            border-top: 1px solid #222;
-            margin-top: 40px;
-        }
-    </style>
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 100%;
+      z-index: 1;
+    }
 
-    {% block extra_css %}{% endblock %}
+    .hero-content h1,
+    .hero-content p {
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(255,255,255,0.9),
+        0 0 20px rgba(255,255,255,0.55),
+        0 0 35px rgba(255,255,255,0.3);
+    }
+
+    .hero-content h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 25px;
+      background: transparent;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: var(--subtext);
+      border-top: 1px solid #222;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 720px) {
+      .hero {
+        height: 320px;
+      }
+      .hero-content h1 {
+        font-size: 30px;
+      }
+      nav {
+        padding: 14px 18px;
+      }
+    }
+  </style>
+
+  {% block extra_css %}{% endblock %}
 </head>
-
 <body>
+  <nav>
+    <a class="logo" href="/">ShopEase</a>
 
-    <nav>
-        <a class="logo" href="/">ShopEase</a>
+    <form class="search-bar" method="get" action="/search/">
+      <input type="text" name="q" placeholder="Search products..." />
+      <button type="submit">Search</button>
+    </form>
 
-        <form class="search-bar" method="get" action="/search/">
-            <input type="text" name="q" placeholder="Search products..." />
-            <button type="submit">Search</button>
-        </form>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/cart/">Cart</a></li>
+    </ul>
+  </nav>
 
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/cart/">Cart</a></li>
-            <li><a href="#">Categories</a></li>
-        </ul>
-    </nav>
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
 
-
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Premium Products, Futuristic Design</h1>
-            <p>Shop smart. Shop sleek. Shop in style.</p>
-        </div>
-    </section>
-
-
-    <div class="container">
-        {% block content %}{% endblock %}
-    </div>
-
-    <footer>
-        © 2025 ShopEase — Futuristic Shopping Experience
-    </footer>
-
-    {% block extra_js %}{% endblock %}
+  <footer>© 2025 ShopEase — Futuristic Shopping Experience</footer>
+  {% block extra_js %}{% endblock %}
 </body>
 </html>
